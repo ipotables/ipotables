@@ -1,5 +1,75 @@
 $(function(){
 
+  var CONTEXT = {
+    "@context": {
+      "@vocab": "http://ld.ipotables.net/context#",
+      "input": { "@type": "@id" },
+      "output": { "@type": "@id" },
+      "inputOf": { "@type": "@id" },
+      "outputOf": { "@type": "@id" }
+    }
+  };
+
+  var graph = levelgraphJSONLD(levelgraph('dev'));
+
+  function putResource(resource){
+    if(!resource["@context"]) resource["@context"] = CONTEXT["@context"];
+    return new Promise(function(resolve, reject){
+      graph.jsonld.put(resource, function(err, doc){
+        if(err) reject(err);
+        resolve(doc);
+      });
+    });
+  }
+
+  function getResource(id){
+    return new Promise(function(resolve, reject){
+      graph.jsonld.get(id, CONTEXT, function(err, doc){
+        if(err) reject(err);
+        resolve(doc);
+      });
+    });
+  }
+
+  function delResource(id){
+    return new Promise(function(resolve, reject){
+      graph.jsonld.del(id, function(err){
+        if(err) reject(err);
+        resolve();
+      });
+    });
+  }
+
+  function getAllTriples(){
+    return new Promise(function(resolve, reject){
+      graph.get({}, function(err, list){
+        if(err) reject(err);
+        resolve(list);
+      });
+    });
+  }
+
+  function seed(data) {
+    Promise.all(_.map(data["@graph"], putResource)).then(function(){
+      console.log('database seeded');
+    });
+  }
+
+  function empty(){
+    getAllTriples().then(function(list){
+      var ids = _.uniq(_.map(list, function(triple){ return triple.subject; }));
+      Promise.all(_.map(ids, delResource)).then(function(){
+        console.log('database emptied');
+      });
+    }).catch(function(err){ console.log(err); });
+
+  }
+
+  graph.putResource = putResource;
+  graph.getResource = getResource;
+  graph.getAllTriples = getAllTriples;
+  graph.seed = seed;
+  graph.empty = empty;
 
   var Module = Backbone.Model.extend({
   });
@@ -14,44 +84,6 @@ $(function(){
   var ThingsList = Backbone.Collection.extend({
     model: Thing
   });
-
-  // FIXME move to the end and provide proper storage!
-  var modules = new ModulesList();
-  var things = new ThingsList();
-
-  things.add({
-    name: 'coffee powder',
-    description: 'coffee beans do not make best coffee if used in their original form, powder works much better for brewing',
-    uuid: '5bc1633a-bf5b-4ae6-bf63-e04e654d42b3',
-    inputOf: ['042fbbdf-5276-4ab4-b59b-daee35b6db31']
-  });
-
-  things.add({
-    name: 'coffee grounds',
-    description: 'after brewing coffee using powder, we get grounds which still contain some nutritions',
-    uuid: 'd0027b57-b6dd-44f7-af63-6811e1526507',
-    inputOf: ['239964b7-b591-47f0-bb15-820ec023c8d7'],
-    outputOf: ['042fbbdf-5276-4ab4-b59b-daee35b6db31']
-  });
-
-  modules.add({
-    name: 'making coffee',
-    description: 'this module explains how to make coffe so you do not fall asleep',
-    uuid: '042fbbdf-5276-4ab4-b59b-daee35b6db31',
-    input: ['5bc1633a-bf5b-4ae6-bf63-e04e654d42b3'],
-    output: ['d0027b57-b6dd-44f7-af63-6811e1526507'],
-    process: 'pour hot water over coffee and stir, easy peasy lemon squeezin'
-  });
-
-  modules.add({
-    name: 'growing mushrooms',
-    description: 'this module explains how to make coffe so you do not fall asleep',
-    uuid: '239964b7-b591-47f0-bb15-820ec023c8d7',
-    input: ['d0027b57-b6dd-44f7-af63-6811e1526507'],
-    output: [],
-    process: 'mix all the stuff together and put some spores on it'
-  });
-
 
   var ModuleView = Backbone.View.extend({
     el: '#module',
@@ -87,7 +119,12 @@ $(function(){
   var ModulesListView = Backbone.View.extend({
     el: "#mlist",
 
+    initialize: function(){
+      this.on('reset', this.render);
+    },
+
     render: function(){
+      console.log('render list of modules');
       this.collection.each(function(mod){
         this.$el.append('<li><a href="#modules/' + mod.get('uuid') + '">' + mod.get('name') + '</a></li>');
       }.bind(this));
@@ -97,7 +134,12 @@ $(function(){
   var ThingsListView = Backbone.View.extend({
     el: "#tlist",
 
+    initialize: function(){
+      this.on('reset', this.render);
+    },
+
     render: function(){
+      console.log('render list of things');
       this.collection.each(function(thing){
         this.$el.append('<li><a href="#things/' + thing.get('uuid') + '">' + thing.get('name') + '</a></li>');
       }.bind(this));
@@ -161,6 +203,11 @@ $(function(){
     }
   });
 
+  // FIXME move to the end and provide proper storage!
+  var modules = new ModulesList();
+  var things = new ThingsList();
+
+
   var mView = new ModulesListView({ collection: modules });
   var tView = new ThingsListView({ collection: things });
 
@@ -172,16 +219,23 @@ $(function(){
 
   router.navigate('', { trigger: true });
 
+  // debug
+  window.app = {
+    CONTEXT: CONTEXT,
+    graph: graph,
+    modules: modules,
+    things: things,
+    router: router,
+    log: function(data){ console.log(data); }
+  };
+
+  $.get('data.jsonld', function(data){
+    window.app.data = JSON.parse(data);
+    console.log(app.data);
+  });
 
   $('#header h1').on('click', function(){
     router.navigate('', { trigger: true });
   });
-
-  // debug
-  window.app = {
-    modules: modules,
-    things: things,
-    router: router
-  };
 
 });
