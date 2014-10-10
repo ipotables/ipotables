@@ -50,19 +50,24 @@ $(function(){
   }
 
   function seed(data) {
-    Promise.all(_.map(data["@graph"], putResource)).then(function(){
-      console.log('database seeded');
+    return new Promise(function(resolve, reject){
+      Promise.all(_.map(data["@graph"], putResource)).then(function(){
+        console.log('database seeded');
+        resolve();
+      }).catch(reject);
     });
   }
 
   function empty(){
-    getAllTriples().then(function(list){
-      var ids = _.uniq(_.map(list, function(triple){ return triple.subject; }));
-      Promise.all(_.map(ids, delResource)).then(function(){
-        console.log('database emptied');
-      });
-    }).catch(function(err){ console.log(err); });
-
+    return new Promise(function(resolve, reject){
+      getAllTriples().then(function(list){
+        var ids = _.uniq(_.map(list, function(triple){ return triple.subject; }));
+        Promise.all(_.map(ids, delResource)).then(function(){
+          console.log('database emptied');
+          resolve();
+        }).catch(reject);
+      }).catch(reject);
+    });
   }
 
   graph.putResource = putResource;
@@ -231,7 +236,10 @@ $(function(){
 
   $.get('data.jsonld', function(data){
     window.app.data = JSON.parse(data);
-    console.log(app.data);
+    graph.empty().then(function(){
+      graph.seed(app.data);
+    });
+    console.log('retrieved data', app.data);
   });
 
   $('#header h1').on('click', function(){
