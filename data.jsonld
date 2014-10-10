@@ -1,39 +1,39 @@
 {
   "@context": {
-    "@vocab": "http://ld.ipotables.net/context#",
-    "input": { "@type": "@id" },
-    "output": { "@type": "@id" },
-    "inputOf": { "@type": "@id" },
-    "outputOf": { "@type": "@id" }
+    "@vocab": "http://ld.ipotables.net/schema#",
+    "input": { "@type": "@id", "@container": "@set" },
+    "output": { "@type": "@id", "@container": "@set" },
+    "inputOf": { "@type": "@id", "@container": "@set" },
+    "outputOf": { "@type": "@id", "@container": "@set" }
   },
   "@graph": [
     {
-      "@id": "urn:uri:5bc1633a-bf5b-4ae6-bf63-e04e654d42b3",
+      "@id": "urn:uuid:5bc1633a-bf5b-4ae6-bf63-e04e654d42b3",
       "@type": "Thing",
       "name": "coffee powder",
       "description": "coffee beans do not make best coffee if used in their original form, powder works much better for brewing",
-      "inputOf": ["urn:uri:042fbbdf-5276-4ab4-b59b-daee35b6db31"]
+      "inputOf": ["urn:uuid:042fbbdf-5276-4ab4-b59b-daee35b6db31"]
     }, {
-      "@id": "urn:uri:d0027b57-b6dd-44f7-af63-6811e1526507",
+      "@id": "urn:uuid:d0027b57-b6dd-44f7-af63-6811e1526507",
       "@type": "Thing",
       "name": "coffee grounds",
       "description": "after brewing coffee using powder, we get grounds which still contain some nutritions",
-      "inputOf": ["urn:uri:239964b7-b591-47f0-bb15-820ec023c8d7"],
-      "outputOf": ["urn:uri:042fbbdf-5276-4ab4-b59b-daee35b6db31"]
+      "inputOf": ["urn:uuid:239964b7-b591-47f0-bb15-820ec023c8d7"],
+      "outputOf": ["urn:uuid:042fbbdf-5276-4ab4-b59b-daee35b6db31"]
     }, {
-      "@id": "042fbbdf-5276-4ab4-b59b-daee35b6db31",
+      "@id": "urn:uuid:042fbbdf-5276-4ab4-b59b-daee35b6db31",
       "@type": "Module",
       "name": "making coffee",
       "description": "this module explains how to make coffe so you do not fall asleep",
-      "input": ["urn:uri:5bc1633a-bf5b-4ae6-bf63-e04e654d42b3"],
-      "output": ["urn:uri:d0027b57-b6dd-44f7-af63-6811e1526507"],
+      "input": ["urn:uuid:5bc1633a-bf5b-4ae6-bf63-e04e654d42b3"],
+      "output": ["urn:uuid:d0027b57-b6dd-44f7-af63-6811e1526507"],
       "process": "pour hot water over coffee and stir, easy peasy lemon squeezin"
     }, {
-      "@id": "urn:uri:239964b7-b591-47f0-bb15-820ec023c8d7",
+      "@id": "urn:uuid:239964b7-b591-47f0-bb15-820ec023c8d7",
       "@type": "Module",
       "name": "growing mushrooms",
       "description": "this module explains how to make coffe so you do not fall asleep",
-      "input": ["urn:uri:d0027b57-b6dd-44f7-af63-6811e1526507"],
+      "input": ["urn:uuid:d0027b57-b6dd-44f7-af63-6811e1526507"],
       "process": "mix all the stuff together and put some spores on it"
     }
   ]
