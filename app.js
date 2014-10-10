@@ -23,14 +23,15 @@ $(function(){
     name: 'coffee powder',
     description: 'coffee beans do not make best coffee if used in their original form, powder works much better for brewing',
     uuid: '5bc1633a-bf5b-4ae6-bf63-e04e654d42b3',
-    asInput: ['042fbbdf-5276-4ab4-b59b-daee35b6db31']
+    inputOf: ['042fbbdf-5276-4ab4-b59b-daee35b6db31']
   });
 
   things.add({
     name: 'coffee grounds',
     description: 'after brewing coffee using powder, we get grounds which still contain some nutritions',
     uuid: 'd0027b57-b6dd-44f7-af63-6811e1526507',
-    asOutput: ['042fbbdf-5276-4ab4-b59b-daee35b6db31']
+    inputOf: ['239964b7-b591-47f0-bb15-820ec023c8d7'],
+    outputOf: ['042fbbdf-5276-4ab4-b59b-daee35b6db31']
   });
 
   modules.add({
@@ -38,7 +39,17 @@ $(function(){
     description: 'this module explains how to make coffe so you do not fall asleep',
     uuid: '042fbbdf-5276-4ab4-b59b-daee35b6db31',
     input: ['5bc1633a-bf5b-4ae6-bf63-e04e654d42b3'],
-    output: ['d0027b57-b6dd-44f7-af63-6811e1526507']
+    output: ['d0027b57-b6dd-44f7-af63-6811e1526507'],
+    process: 'pour hot water over coffee and stir, easy peasy lemon squeezin'
+  });
+
+  modules.add({
+    name: 'growing mushrooms',
+    description: 'this module explains how to make coffe so you do not fall asleep',
+    uuid: '239964b7-b591-47f0-bb15-820ec023c8d7',
+    input: ['d0027b57-b6dd-44f7-af63-6811e1526507'],
+    output: [],
+    process: 'mix all the stuff together and put some spores on it'
   });
 
 
@@ -46,6 +57,7 @@ $(function(){
     el: '#module',
 
     render: function(){
+      this.$el.find('.process').html(this.model.get('process'));
       _.each(this.model.get('input'), function(uuid){
         var thing = things.findWhere({ uuid: uuid });
         this.$el.find('.input').append('<li><a href="#things/' + thing.get('uuid') + '">' + thing.get('name') + '</a></li>');
@@ -61,11 +73,11 @@ $(function(){
     el: '#thing',
 
     render: function(){
-      _.each(this.model.get('asInput'), function(uuid){
+      _.each(this.model.get('inputOf'), function(uuid){
         var mod = modules.findWhere({ uuid: uuid });
         this.$el.find('.input').append('<li><a href="#modules/' + mod.get('uuid') + '">' + mod.get('name') + '</a></li>');
       }.bind(this));
-      _.each(this.model.get('asOutput'), function(uuid){
+      _.each(this.model.get('outputOf'), function(uuid){
         var mod = modules.findWhere({ uuid: uuid });
         this.$el.find('.output').append('<li><a href="#modules/' + mod.get('uuid') + '">' + mod.get('name') + '</a></li>');
       }.bind(this));
