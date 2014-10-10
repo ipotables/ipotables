@@ -202,7 +202,7 @@ $(function(){
       $('#directory').show();
       $('#module').hide();
       $('#thing').hide();
-      nameView('directory');
+      nameView('Directory');
       setDescription('');
     },
 
@@ -213,7 +213,7 @@ $(function(){
       $('#thing').hide();
 
       var mod = modules.findWhere({ '@id': 'urn:uuid:' + uuid });
-      nameView('module: ' + mod.get('name'));
+      nameView('Module: ' + mod.get('name'));
       setDescription(mod.get('description'));
       var view = new ModuleView({ model: mod });
       view.render();
@@ -226,7 +226,7 @@ $(function(){
       $('#module').hide();
 
       var thing = things.findWhere({ '@id': 'urn:uuid:' + uuid });
-      nameView('thing: ' + thing.get('name'));
+      nameView('Thing: ' + thing.get('name'));
       setDescription(thing.get('description'));
       var view = new ThingView({ model: thing });
       view.render();
