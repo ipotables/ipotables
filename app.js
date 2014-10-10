@@ -49,12 +49,24 @@ $(function(){
     $('#header h2').html(name);
   }
 
+  function setDescription(description){
+    $('#header p').html(description);
+  }
+
   // FIXME move to the end and provide proper storage!
   var modules = new ModulesList();
   var things = new ThingsList();
 
-  modules.add({ name: 'making coffee', uuid: '042fbbdf-5276-4ab4-b59b-daee35b6db31' });
-  things.add({ name: 'coffee powder', uuid: '5bc1633a-bf5b-4ae6-bf63-e04e654d42b3' });
+  modules.add({
+    name: 'making coffee',
+    description: 'this module explains how to make coffe so you do not fall asleep',
+    uuid: '042fbbdf-5276-4ab4-b59b-daee35b6db31'
+  });
+  things.add({
+    name: 'coffee powder',
+    description: 'coffee beans do not make best coffee if used in their original form, powder works much better for brewing',
+    uuid: '5bc1633a-bf5b-4ae6-bf63-e04e654d42b3'
+  });
 
   var Router = Backbone.Router.extend({
     routes: {
@@ -68,6 +80,7 @@ $(function(){
       $('#module').hide();
       $('#thing').hide();
       nameView('directory');
+      setDescription('');
     },
 
     mod: function(uuid){
@@ -77,6 +90,7 @@ $(function(){
 
       var mod = modules.findWhere({ uuid: uuid });
       nameView('module: ' + mod.get('name'));
+      setDescription(mod.get('description'));
     },
 
     thing: function(uuid){
@@ -86,6 +100,7 @@ $(function(){
 
       var thing = things.findWhere({ uuid: uuid });
       nameView('thing: ' + thing.get('name'));
+      setDescription(thing.get('description'));
     }
   });
 
