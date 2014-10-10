@@ -1,0 +1,15 @@
+{
+  "name": "ipotables",
+  "version": "0.0.0",
+  "authors": [
+    "elf Pavlik <perpetual-tripper@wwelves.org>"
+  ],
+  "license": "Unlicense",
+  "private": true,
+  "dependencies": {
+    "jquery": "~2.1.1",
+    "bootstrap": "~3.2.0",
+    "lodash": "~2.4.1",
+    "backbone": "~1.1.2"
+  }
+}
