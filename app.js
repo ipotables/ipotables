@@ -15,14 +15,61 @@ $(function(){
     model: Thing
   });
 
+  // FIXME move to the end and provide proper storage!
+  var modules = new ModulesList();
+  var things = new ThingsList();
+
+  things.add({
+    name: 'coffee powder',
+    description: 'coffee beans do not make best coffee if used in their original form, powder works much better for brewing',
+    uuid: '5bc1633a-bf5b-4ae6-bf63-e04e654d42b3',
+    asInput: ['042fbbdf-5276-4ab4-b59b-daee35b6db31']
+  });
+
+  things.add({
+    name: 'coffee grounds',
+    description: 'after brewing coffee using powder, we get grounds which still contain some nutritions',
+    uuid: 'd0027b57-b6dd-44f7-af63-6811e1526507',
+    asOutput: ['042fbbdf-5276-4ab4-b59b-daee35b6db31']
+  });
+
+  modules.add({
+    name: 'making coffee',
+    description: 'this module explains how to make coffe so you do not fall asleep',
+    uuid: '042fbbdf-5276-4ab4-b59b-daee35b6db31',
+    input: ['5bc1633a-bf5b-4ae6-bf63-e04e654d42b3'],
+    output: ['d0027b57-b6dd-44f7-af63-6811e1526507']
+  });
+
+
   var ModuleView = Backbone.View.extend({
-    model: Module,
-    el: '#module'
+    el: '#module',
+
+    render: function(){
+      _.each(this.model.get('input'), function(uuid){
+        var thing = things.findWhere({ uuid: uuid });
+        this.$el.find('.input').append('<li><a href="#things/' + thing.get('uuid') + '">' + thing.get('name') + '</a></li>');
+      }.bind(this));
+      _.each(this.model.get('output'), function(uuid){
+        var thing = things.findWhere({ uuid: uuid });
+        this.$el.find('.output').append('<li><a href="#things/' + thing.get('uuid') + '">' + thing.get('name') + '</a></li>');
+      }.bind(this));
+    }
   });
 
   var ThingView = Backbone.View.extend({
-    model: Thing,
-    el: '#thing'
+    el: '#thing',
+
+    render: function(){
+      _.each(this.model.get('asInput'), function(uuid){
+        var mod = modules.findWhere({ uuid: uuid });
+        this.$el.find('.input').append('<li><a href="#modules/' + mod.get('uuid') + '">' + mod.get('name') + '</a></li>');
+      }.bind(this));
+      _.each(this.model.get('asOutput'), function(uuid){
+        var mod = modules.findWhere({ uuid: uuid });
+        this.$el.find('.output').append('<li><a href="#modules/' + mod.get('uuid') + '">' + mod.get('name') + '</a></li>');
+      }.bind(this));
+    }
   });
 
   var ModulesListView = Backbone.View.extend({
@@ -53,20 +100,11 @@ $(function(){
     $('#header p').html(description);
   }
 
-  // FIXME move to the end and provide proper storage!
-  var modules = new ModulesList();
-  var things = new ThingsList();
-
-  modules.add({
-    name: 'making coffee',
-    description: 'this module explains how to make coffe so you do not fall asleep',
-    uuid: '042fbbdf-5276-4ab4-b59b-daee35b6db31'
-  });
-  things.add({
-    name: 'coffee powder',
-    description: 'coffee beans do not make best coffee if used in their original form, powder works much better for brewing',
-    uuid: '5bc1633a-bf5b-4ae6-bf63-e04e654d42b3'
-  });
+  function resetLists(){
+    $('ul.input').empty();
+    $('ul.process').empty();
+    $('ul.output').empty();
+  }
 
   var Router = Backbone.Router.extend({
     routes: {
@@ -76,6 +114,7 @@ $(function(){
     },
 
     directory: function(){
+      resetLists();
       $('#directory').show();
       $('#module').hide();
       $('#thing').hide();
@@ -84,6 +123,7 @@ $(function(){
     },
 
     mod: function(uuid){
+      resetLists();
       $('#module').show();
       $('#directory').hide();
       $('#thing').hide();
@@ -91,9 +131,12 @@ $(function(){
       var mod = modules.findWhere({ uuid: uuid });
       nameView('module: ' + mod.get('name'));
       setDescription(mod.get('description'));
+      var view = new ModuleView({ model: mod });
+      view.render();
     },
 
     thing: function(uuid){
+      resetLists();
       $('#thing').show();
       $('#directory').hide();
       $('#module').hide();
@@ -101,6 +144,8 @@ $(function(){
       var thing = things.findWhere({ uuid: uuid });
       nameView('thing: ' + thing.get('name'));
       setDescription(thing.get('description'));
+      var view = new ThingView({ model: thing });
+      view.render();
     }
   });
 
