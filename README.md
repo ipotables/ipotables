@@ -3,4 +3,16 @@
 
 first prototype implementing concepts described on http://ipotables.net
 
+# Development
 
+we use [bower](http://bower.io) for dependencies
+
+```shell
+$ bower install
+```
+
+to serve app locally you can use something like
+[serve](http://npm.im/serve) or just
+
+```shell
+$ python -m SimpleHTTPServer
