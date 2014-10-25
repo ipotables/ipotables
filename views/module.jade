@@ -9,7 +9,8 @@ block mainContent
       h3 Inputs
       ul.input
         each thing in module.inputs
-          li= thing.name
+          li
+            a(href="/thing/" + thing.id)=thing.name
       +io_form('input',module)
     .col-md-3
       h3 Workflow
@@ -19,7 +20,8 @@ block mainContent
       div.hidden
       ul.output
         each thing in module.outputs
-          li= thing.name
+          li
+            a(href="/thing/" + thing.id)=thing.name
       +io_form('output',module)
   div
     a(href="/module/list") Back to Module list
