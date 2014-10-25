@@ -9,7 +9,11 @@ block mainContent
       h3 Inputs
       div.list-group
         each thing in module.inputs
-          a.list-group-item(href="/thing/" + thing.id)=thing.name
+          div.list-group-item
+            a(href="/module/" + module.id + "/remove/input/" + thing.id )
+              button(type="button", class="close", aria-hidden="true") &times;
+            p.list-group-item-text
+              a(href="/thing/" + thing.id)=thing.name
       +io_form('input',module)
     .col-md-3
       h3 Process
@@ -18,7 +22,11 @@ block mainContent
       h3 Outputs
       div.list-group
         each thing in module.outputs
-          a.list-group-item(href="/thing/" + thing.id)=thing.name
+          div.list-group-item
+            a(href="/module/" + module.id + "/remove/output/" + thing.id )
+              button(type="button", class="close", aria-hidden="true") &times;
+            p.list-group-item-text
+              a(href="/thing/" + thing.id)=thing.name
       +io_form('output',module)
   div
     a(href="/module/list") Back to Module list

@@ -16,6 +16,19 @@ router.get('/create', function(req, res) {
 });
 
 /* GET create module page. */
+router.get('/:id/remove/:type/:tid', function(req, res) {
+  Module.removeIO(req.params.type, req.params.id, req.params.tid, function(err){
+    if(err){
+      res.render('error',{message:err.message, error: err});
+      return;
+    }
+
+    res.redirect('/module/' + req.params.id);
+
+  });
+});
+
+/* GET create module page. */
 router.post('/:id/add/:type', function(req, res) {
   
   // For local debug
