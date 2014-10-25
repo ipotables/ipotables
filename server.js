@@ -7,6 +7,10 @@ var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var modules = require('./routes/module');
+
+var neo4j = require('neo4j');
+var db = new neo4j.GraphDatabase('http://localhost:7474');
 
 var app = express();
 
@@ -24,10 +28,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
+modules.db = db;
+app.use('/module', modules);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-    var err = new Error('Not Found');
+    var err = new Error('Not Found (', req.path, ')');
     err.status = 404;
     next(err);
 });
