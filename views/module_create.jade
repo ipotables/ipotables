@@ -7,6 +7,11 @@ block mainContent
     button(type="button", class="close", data-dismiss="alert", aria-hidden="true") &times;
     span= error.message
   - }
+  - if(flash != null) {
+  div(class="alert alert-info alert-dismissable")
+    button(type="button", class="close", data-dismiss="alert", aria-hidden="true") &times;
+    span= flash.message
+  - }
   form(action="/module/create", method="POST",  data-ajax="false", role="form")
     include module_form
     input.submit(type="submit", value="Create!", class="btn btn-primary")
