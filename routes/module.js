@@ -17,30 +17,49 @@ router.get('/create', function(req, res) {
 
 /* GET create module page. */
 router.post('/:id/add/:type', function(req, res) {
-  var debug = false;
+  
+  // For local debug
+  var debug = true;
+
+  if(debug) console.log('Trying to add', req.params.type, 'relation to module.');
+
   ThingModel.getByName(req.body.name, function(err, thing) {
+    
     function errHandler(err) {
       if(debug) console.log(err);
       res.render('error',{message:err.message, error: err})
     }
+
     if (err) return errHandler(err);
+
+    // Callback
     var cb = function (err, theThing) {
       if (err) return errHandler(err);
       ModuleModel.get(req.params.id, function(err, module) {
         if (err) return errHandler(err);
+        
         if(debug) console.log('Got module and thing, now trying to create relation', theThing);
+
         module.addRelation(theThing, req.params.type, function(err, result) {
           if (err) return errHandler(err);
+
+          if(debug) console.log('Added', req.params.type, 'relation to module.');
+
+          module[req.params.type + 's'].push(theThing);
+
           res.render('module',{ module: module, flash: {
-            message: req.params.type+" relation added to module "+module.name
+            message: req.params.type + " relation added to module " + module.name
           }});
-        });
+        }); // addRelation
+
       });
     };
+
     if (!thing) {
       if(debug) console.log('thing does not exist, creating...');
       return ThingModel.create(req.body, cb);
     }
+
     if(debug) console.log('got thing already existing');
     cb(null, thing);
   });
