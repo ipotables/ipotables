@@ -2,11 +2,9 @@ extends layout
 
 block content
   #directory.row
-    div(id="header", class="col-md-12")
-      h1= "IPO Tables"
-      p Welcome to the IPO Directory
     .col-md-4.col-md-offset-2
-      h3 Modules
+      h3 
+        a(href="/module/list") Modules
       ul#mlist
     .col-md-4
       h3 Things
