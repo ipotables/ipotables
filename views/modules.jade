@@ -1,0 +1,7 @@
+extends layout
+
+block mainContent
+  a(href="/module/create") Create new Module
+  table#modulesList(class="table")
+    each module in result
+      include module_item
