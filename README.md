@@ -9,7 +9,7 @@ https://ipo.fragmurphy.de
 
 # Development
 
-we use [bower](http://bower.io) for dependencies
+we use [bower](http://bower.io) for client-side dependencies
 
 ```shell
 $ bower install
@@ -20,3 +20,9 @@ to serve app locally you can use something like
 
 ```shell
 $ python -m SimpleHTTPServer
+
+we use npm for server dependencies
+
+```shell
+npm install
+```
