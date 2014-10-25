@@ -1,10 +1,11 @@
 var express = require('express');
 var router = express.Router();
-var ThingModel = require('../lib/models/thing.js');
+var Module = require('../lib/models/models.js').Module;
+var Thing = require('../lib/models/models.js').Thing;
 
 /* GET things page. */
 router.get('/list', function(req, res) {
-  ThingModel.getAll(function(err, things){
+  Thing.getAll(function(err, things){
     res.render('things', { result: things });
   });
 });
@@ -18,7 +19,7 @@ router.get('/list', function(req, res) {
 
 // /* POST thing */
 // router.post('/create', function(req, res) {
-//   ThingModel.create(req.body, function(err, thing){
+//   Thing.create(req.body, function(err, thing){
 //     if(err){
 //       res.render('thing_create', { error: err });
 //       return;
@@ -30,14 +31,14 @@ router.get('/list', function(req, res) {
 
 /* GET thing view page */
 router.get('/:id', function(req, res) {
-  ThingModel.get(req.params.id, function(err, thing){
+  Thing.get(req.params.id, function(err, thing){
+
     if(err) {
-      // TODO: Use correct error page
       res.render('error', { message: err.message, error: err });
       return;
     }
 
-    res.render('thing', { thing: thing });
+    res.render('thing', { thing: thing });  
 
   });
 });

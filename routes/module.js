@@ -1,11 +1,11 @@
 var express = require('express');
 var router = express.Router();
-var ModuleModel = require('../lib/models/module.js');
-var ThingModel = require('../lib/models/thing.js');
+var Module = require('../lib/models/models.js').Module;
+var Thing = require('../lib/models/models.js').Thing;
 
 /* GET modules page. */
 router.get('/list', function(req, res) {
-  ModuleModel.getAll(function(err, modules){
+  Module.getAll(function(err, modules){
     res.render('modules', { result: modules });
   });
 });
@@ -23,7 +23,7 @@ router.post('/:id/add/:type', function(req, res) {
 
   if(debug) console.log('Trying to add', req.params.type, 'relation to module.');
 
-  ThingModel.getByName(req.body.name, function(err, thing) {
+  Thing.getByName(req.body.name, function(err, thing) {
     
     function errHandler(err) {
       if(debug) console.log(err);
@@ -35,7 +35,7 @@ router.post('/:id/add/:type', function(req, res) {
     // Callback
     var cb = function (err, theThing) {
       if (err) return errHandler(err);
-      ModuleModel.get(req.params.id, function(err, module) {
+      Module.get(req.params.id, function(err, module) {
         if (err) return errHandler(err);
         
         if(debug) console.log('Got module and thing, now trying to create relation', theThing);
@@ -57,7 +57,7 @@ router.post('/:id/add/:type', function(req, res) {
 
     if (!thing) {
       if(debug) console.log('thing does not exist, creating...');
-      return ThingModel.create(req.body, cb);
+      return Thing.create(req.body, cb);
     }
 
     if(debug) console.log('got thing already existing');
@@ -67,7 +67,7 @@ router.post('/:id/add/:type', function(req, res) {
 
 /* POST module */
 router.post('/create', function(req, res) {
-  ModuleModel.create(req.body, function(err, module){
+  Module.create(req.body, function(err, module){
     if(err){
       res.render('module_create', { error: err });
       return;
@@ -79,10 +79,9 @@ router.post('/create', function(req, res) {
 
 /* GET module view page */
 router.get('/:id', function(req, res) {
-  ModuleModel.get(req.params.id, function(err, module){
+  Module.get(req.params.id, function(err, module){
     if(err) {
-      // TODO: Use correct error page
-      res.render('module_create', { error: err });
+      res.render('error', { message: err.message, error: err });
       return;
     }
 

@@ -27,6 +27,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
+things.db = db;
 app.use('/thing', things);
 modules.db = db;
 app.use('/module', modules);
