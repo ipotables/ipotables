@@ -1,0 +1,7 @@
+extends layout
+
+block mainContent
+  a(href="/thing/create") Create new Thing
+  table#thingsList(class="table")
+    each thing in result
+      include thing_item

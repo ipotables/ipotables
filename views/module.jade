@@ -1,7 +1,21 @@
 extends layout
+include io_form
 
 block mainContent
   h2=module.name
   div.well=module.description
+  #module.row
+    .col-md-3.col-md-offset-2
+      h3 Inputs
+      ul.input
+        +io_form('input')
+    .col-md-3
+      h3 Workflow
+      .process
+    .col-md-3
+      h3 Outputs
+      div.hidden
+      ul.output
+        +io_form('output')
   div
     a(href="/module/list") Back to Module list

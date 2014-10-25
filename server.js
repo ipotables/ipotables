@@ -6,7 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
-var users = require('./routes/users');
+var things = require('./routes/thing');
 var modules = require('./routes/module');
 
 var neo4j = require('neo4j');
@@ -27,7 +27,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
-app.use('/users', users);
+app.use('/thing', things);
 modules.db = db;
 app.use('/module', modules);
 

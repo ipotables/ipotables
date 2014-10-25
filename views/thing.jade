@@ -1,0 +1,15 @@
+extends layout
+
+block mainContent
+  h2=thing.name
+  div.well=thing.description
+  #thing.row
+    .col-md-4.col-md-offset-2
+      h3 Input of
+      ul.output
+    .col-md-4
+      h3 Output of
+      ul.input
+
+  div
+    a(href="/thing/list") Back to Thing list

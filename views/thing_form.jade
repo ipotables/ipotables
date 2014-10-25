@@ -1,0 +1,6 @@
+.form-group
+  label(for="thingNameInput") Title
+  input#thingNameInput(required="required", name="name", value= thing && thing.name ? thing.name : '', type="text", class="form-control")
+.form-group
+  label(for="thingDescriptionInput") Description
+  textarea#thingDescriptionInput(required="required", name="description", type="text", class="form-control")= thing && thing.description ? thing.description : ''
