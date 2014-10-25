@@ -8,7 +8,8 @@ block mainContent
     .col-md-3.col-md-offset-2
       h3 Inputs
       ul.input
-        +io_form('input')
+
+      +io_form('input',module)
     .col-md-3
       h3 Workflow
       .process
@@ -16,6 +17,6 @@ block mainContent
       h3 Outputs
       div.hidden
       ul.output
-        +io_form('output')
+      +io_form('output',module)
   div
     a(href="/module/list") Back to Module list

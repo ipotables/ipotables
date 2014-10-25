@@ -1,6 +1,6 @@
-mixin io_form(type)
+mixin io_form(type,module)
   div
-    form.inline-form(method="POST",action="/module/add/"+type)
+    form.inline-form(method="POST",action="/module/"+module.id+"/add/"+type)
       .form-group
-        input(placeholder="Thing name")
-        input(type="submit",value="Add")  
+        input(placeholder="Thing name",name="name")
+        input(type="submit",value="Add")

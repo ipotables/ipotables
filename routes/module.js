@@ -16,12 +16,27 @@ router.get('/create', function(req, res) {
 });
 
 /* GET create module page. */
-router.post(':id/add/:type/', function(req, res) {
-  ThingModel.get(req.body)
-  ModuleModel.get(req.params.id, function(err, module) {
-    module.addInput()
+router.post('/:id/add/:type', function(req, res) {
+  ThingModel.getByName(req.body.name, function(err, thing) {
+    function errHandler(err,id) {
+      console.log(err);
+      res.render('module',{module:module, error: err})
+    }
+    if (err) return errHandler(err,req.params.id);
+    var cb = function (err, thing) {
+      ModuleModel.get(req.params.id, function(err, module) {
+        if (err) return errHandler(err,req.params.id);
+        module.addRelation(thing,type,function(err, result) {
+          if (err) return errHandler(err,req.params.id);
+          res.render('module',{module: module, flash: {message: req.params.type+" relation added to module "+module.name}});
+        });
+      });
+    };
+    if (!thing) {
+      return Thing.create(req.body, cb);
+    }
+    cb(null,thing);
   });
-  res.render('module');
 });
 
 /* POST module */
