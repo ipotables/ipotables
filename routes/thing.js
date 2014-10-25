@@ -9,29 +9,31 @@ router.get('/list', function(req, res) {
   });
 });
 
-/* GET create thing page. */
-router.get('/create', function(req, res) {
-  res.render('thing_create');
-});
+// DEACTIVATED:
+// Thing can only be created in a module when directly establishing a relation
+// /* GET create thing page. */
+// router.get('/create', function(req, res) {
+//   res.render('thing_create');
+// });
 
-/* POST thing */
-router.post('/create', function(req, res) {
-  ThingModel.create(req.body, function(err, thing){
-    if(err){
-      res.render('thing_create', { error: err });
-      return;
-    }
+// /* POST thing */
+// router.post('/create', function(req, res) {
+//   ThingModel.create(req.body, function(err, thing){
+//     if(err){
+//       res.render('thing_create', { error: err });
+//       return;
+//     }
 
-    res.redirect('/thing/' + thing.id);
-  });
-});
+//     res.redirect('/thing/' + thing.id);
+//   });
+// });
 
 /* GET thing view page */
 router.get('/:id', function(req, res) {
   ThingModel.get(req.params.id, function(err, thing){
     if(err) {
       // TODO: Use correct error page
-      res.render('thing_create', { error: err });
+      res.render('error', { message: err.message, error: err });
       return;
     }
 
