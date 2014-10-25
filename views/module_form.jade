@@ -1,0 +1,6 @@
+.form-group
+  label(for="moduleNameInput") Title
+  input#moduleNameInput(required="required", name="name", value= module && module.name ? module.name : '', type="text", class="form-control")
+.form-group
+  label(for="moduleDescriptionInput") Description
+  textarea#moduleDescriptionInput(required="required", name="description", type="text", class="form-control")= module && module.description ? module.description : ''

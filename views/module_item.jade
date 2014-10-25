@@ -1,0 +1,4 @@
+tr 
+  td
+    a(href!="/module/" + (!module ? '<%=id%>' : module.id))!= !module ? '<%=name%>' : module.name
+  td!= !module ? '<%=description%>' : module.description
