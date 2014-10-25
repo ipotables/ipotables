@@ -11,6 +11,10 @@ block content
     .col-md-4
       h3 Things
       ul#tlist
+      form(method="post",action="/things/add",class="form-inline")
+        input(placeholder="name",id="name",name="name")
+        input(placeholder="description",id="description",name="description")
+        input(type="submit",class="btn btn-default",value="Add")
   #module.row
     .col-md-3.col-md-offset-2
       h3 Inputs
