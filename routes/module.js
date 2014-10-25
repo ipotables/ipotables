@@ -17,25 +17,32 @@ router.get('/create', function(req, res) {
 
 /* GET create module page. */
 router.post('/:id/add/:type', function(req, res) {
+  var debug = false;
   ThingModel.getByName(req.body.name, function(err, thing) {
-    function errHandler(err,id) {
-      console.log(err);
-      res.render('module',{module:module, error: err})
+    function errHandler(err) {
+      if(debug) console.log(err);
+      res.render('error',{message:err.message, error: err})
     }
-    if (err) return errHandler(err,req.params.id);
-    var cb = function (err, thing) {
+    if (err) return errHandler(err);
+    var cb = function (err, theThing) {
+      if (err) return errHandler(err);
       ModuleModel.get(req.params.id, function(err, module) {
-        if (err) return errHandler(err,req.params.id);
-        module.addRelation(thing,type,function(err, result) {
-          if (err) return errHandler(err,req.params.id);
-          res.render('module',{module: module, flash: {message: req.params.type+" relation added to module "+module.name}});
+        if (err) return errHandler(err);
+        if(debug) console.log('Got module and thing, now trying to create relation', theThing);
+        module.addRelation(theThing, req.params.type, function(err, result) {
+          if (err) return errHandler(err);
+          res.render('module',{ module: module, flash: {
+            message: req.params.type+" relation added to module "+module.name
+          }});
         });
       });
     };
     if (!thing) {
-      return Thing.create(req.body, cb);
+      if(debug) console.log('thing does not exist, creating...');
+      return ThingModel.create(req.body, cb);
     }
-    cb(null,thing);
+    if(debug) console.log('got thing already existing');
+    cb(null, thing);
   });
 });
 
