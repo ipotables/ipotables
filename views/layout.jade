@@ -4,12 +4,15 @@ html
     title= "IPO Tables"
     link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
+    script(src='/javascripts/jquery.js')
     script(src='/javascripts/bootstrap.min.js')
   body
-    div(id="header", class="col-md-12")
-      h1
-        a(href="/") IPO Tables
-      p Welcome to the IPO Directory
+    div.container-fluid
+      div(id="header", class="col-md-12")
+        h1
+          a(href="/") IPO Tables
+        p Welcome to the IPO Directory
+
     - if(error != null) {
     div(class="alert alert-warning alert-dismissable")
       button(type="button", class="close", data-dismiss="alert", aria-hidden="true") &times;
@@ -20,5 +23,6 @@ html
       button(type="button", class="close", data-dismiss="alert", aria-hidden="true") &times;
       span= flash.message
     - }
+
     block content
     block mainContent
