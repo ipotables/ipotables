@@ -3,5 +3,15 @@ extends layout
 block mainContent
   h2=module.name
   div.well=module.description
+  #module.row
+    .col-md-3.col-md-offset-2
+      h3 Inputs
+      ul.input
+    .col-md-3
+      h3 Process
+      .process
+    .col-md-3
+      h3 Outputs
+      ul.output
   div
     a(href="/module/list") Back to Module list

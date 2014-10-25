@@ -3,30 +3,10 @@ extends layout
 block content
   #directory.row
     .col-md-4.col-md-offset-2
-      h3 
+      h3
         a(href="/module/list") Modules
       ul#mlist
     .col-md-4
-      h3 Things
+      h3
+        a(href="/thing/list") Things
       ul#tlist
-      form(method="post",action="/things/add",class="form-inline")
-        input(placeholder="name",id="name",name="name")
-        input(placeholder="description",id="description",name="description")
-        input(type="submit",class="btn btn-default",value="Add")
-  #module.row
-    .col-md-3.col-md-offset-2
-      h3 Inputs
-      ul.input
-    .col-md-3
-      h3 Process
-      .process
-    .col-md-3
-      h3 Outputs
-      ul.output
-  #thing.row
-    .col-md-4.col-md-offset-2
-      h3 Input of
-      ul.output
-    .col-md-4
-      h3 Output of
-      ul.input
