@@ -1,4 +1,3 @@
-tr
-  td
-    a(href!="/thing/" + (!thing ? '<%=id%>' : thing.id))!= !thing ? '<%=name%>' : thing.name
-  td!= !thing ? '<%=description%>' : thing.description
+a.list-group-item(href!="/thing/" + (!thing ? '<%=id%>' : thing.id))
+  h4.list-group-item-heading!= !thing ? '<%=name%>' : thing.name
+  p.list-group-item-text!= !thing ? '<%=description%>' : thing.description

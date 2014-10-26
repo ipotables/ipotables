@@ -1,4 +1,3 @@
-tr 
-  td
-    a(href!="/module/" + (!module ? '<%=id%>' : module.id))!= !module ? '<%=name%>' : module.name
-  td!= !module ? '<%=description%>' : module.description
+a.list-group-item(href!="/module/" + (!module ? '<%=id%>' : module.id))
+  h4.list-group-item-heading!= !module ? '<%=name%>' : module.name
+  p.list-group-item-text!= !module ? '<%=description%>' : module.description

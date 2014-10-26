@@ -4,6 +4,6 @@ block mainContent
   a(href="/module/create") 
     button(class="btn btn-primary") Create new Module
   p &nbsp;
-  table#modulesList(class="table")
+  div.list-group
     each module in result
       include module_item
