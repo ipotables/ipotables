@@ -8,14 +8,20 @@ block mainContent
       h3 Input of
       ul.input
         each module in thing.inputOf
-          li
-            a(href="/module/" + module.id)=module.name
+          div.list-group-item
+            //a(href="/thing/" + thing.id + "/remove/input/" + module.id )
+              button(type="button", class="close", aria-hidden="true") &times;
+            p.list-group-item-text
+              a(href="/module/" + thing.id)=module.name
     .col-md-4
       h3 Output of
       ul.output
         each module in thing.outputOf
-          li
-            a(href="/module/" + module.id)=module.name
+          div.list-group-item
+            //a(href="/thing/" + thing.id + "/remove/output/" + module.id )
+              button(type="button", class="close", aria-hidden="true") &times;
+            p.list-group-item-text
+              a(href="/module/" + thing.id)=module.name
 
   div
     a(href="/thing/list") Back to Thing list
