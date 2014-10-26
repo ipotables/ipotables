@@ -7,11 +7,10 @@ html
     script(src='/javascripts/jquery.js')
     script(src='/javascripts/bootstrap.min.js')
   body
-    div.container-fluid
-      div(id="header", class="col-md-12")
-        h1
-          a(href="/") IPO Tables
-        p Welcome to the IPO Directory
+    div(id="header")
+      a(href="/") 
+        img(src="/images/logo.png", alt="IPO Tables")
+      p &nbsp;
 
     - if(error != null) {
     div(class="alert alert-warning alert-dismissable")

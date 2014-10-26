@@ -2,6 +2,6 @@ body {
   background: url(/assets/images/tiny_grid.png);
 }
 
-#header h1 {
+#header {
   cursor: pointer;
 }
