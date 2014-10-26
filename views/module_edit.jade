@@ -1,0 +1,6 @@
+extends module_view
+
+block moduleView
+  form(action="/module/edit/" + module.id, method="POST",  data-ajax="false", role="form")
+    include module_form
+    input.submit(type="submit", value="Save!", class="btn btn-primary")

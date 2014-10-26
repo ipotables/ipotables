@@ -1,33 +1,7 @@
-extends layout
-include io_form
+extends module_view
 
-block mainContent
+block moduleView
   h2=module.name
   div.well=module.description
-  #module.row
-    .col-md-3.col-md-offset-2
-      h3 Inputs
-      div.list-group
-        each thing in module.inputs
-          div.list-group-item
-            a(href="/module/" + module.id + "/remove/input/" + thing.id )
-              button(type="button", class="close", aria-hidden="true") &times;
-            p.list-group-item-text
-              a(href="/thing/" + thing.id)=thing.name
-      +io_form('input',module)
-    .col-md-3
-      h3 Process
-      .process
-    .col-md-3
-      h3 Outputs
-      div.list-group
-        each thing in module.outputs
-          div.list-group-item
-            a(href="/module/" + module.id + "/remove/output/" + thing.id )
-              button(type="button", class="close", aria-hidden="true") &times;
-            p.list-group-item-text
-              a(href="/thing/" + thing.id)=thing.name
-      +io_form('output',module)
-  div
-    a(href="/module/list") 
-      button(class="btn btn-primary") Module list
+  a(href="/module/edit/" + module.id)
+    button(class="btn btn-default") edit

@@ -103,4 +103,31 @@ router.get('/:id', function(req, res) {
   });
 });
 
+/* GET module edit page */
+router.get('/edit/:id', function(req, res) {
+  Module.get(req.params.id, function(err, module){
+    if(err) {
+      res.render('error', { message: err.message, error: err });
+      return;
+    }
+
+    res.render('module_edit', { module: module });
+
+  });
+});
+
+/* POST module edit page */
+router.post('/edit/:id', function(req, res) {
+  Module.edit(req.params.id, req.body, function(err){
+    if(err) {
+      res.render('error', { message: err.message, error: err });
+      return;
+    }
+
+    res.redirect('/module/' + req.params.id);
+
+  });
+});
+
+
 module.exports = router;
