@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var things = require('./routes/thing');
 var modules = require('./routes/module');
+var api = require('./routes/api');
 
 var neo4j = require('neo4j');
 var db = new neo4j.GraphDatabase('http://localhost:7474');
@@ -31,6 +32,8 @@ things.db = db;
 app.use('/thing', things);
 modules.db = db;
 app.use('/module', modules);
+api.db = db;
+app.use('/api', api);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

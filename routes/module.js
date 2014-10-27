@@ -12,7 +12,7 @@ router.get('/list', function(req, res) {
 
 /* GET create module page. */
 router.get('/create', function(req, res) {
-  res.render('module_create');
+  res.render('module_create', { module: req.query });
 });
 
 /* GET create module page. */
@@ -28,7 +28,9 @@ router.get('/:id/remove/:type/:tid', function(req, res) {
   });
 });
 
-/* GET create module page. */
+/** 
+ * Add a relation to a module
+ */
 router.post('/:id/add/:type', function(req, res) {
   
   // For local debug
