@@ -15,7 +15,7 @@ router.get('/create', function(req, res) {
   res.render('module_create', { module: req.query });
 });
 
-/* GET create module page. */
+/* GET remove IO relation */
 router.get('/:id/remove/:type/:tid', function(req, res) {
   Module.removeIO(req.params.type, req.params.id, req.params.tid, function(err){
     if(err){
@@ -34,7 +34,7 @@ router.get('/:id/remove/:type/:tid', function(req, res) {
 router.post('/:id/add/:type', function(req, res) {
   
   // For local debug
-  var debug = true;
+  var debug = false;
 
   if(debug) console.log('Trying to add', req.params.type, 'relation to module.');
 
@@ -114,6 +114,19 @@ router.get('/edit/:id', function(req, res) {
     }
 
     res.render('module_edit', { module: module });
+
+  });
+});
+
+/* GET remove module - return to list */
+router.get('/remove/:id', function(req, res) {
+  Module.remove(req.params.id, function(err){
+    if(err) {
+      res.render('error', { message: err.message, error: err });
+      return;
+    }
+
+    res.redirect('/module/list?remove=success');
 
   });
 });

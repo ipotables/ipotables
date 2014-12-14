@@ -4,3 +4,7 @@ block moduleView
   form(action="/module/edit/" + module.id, method="POST",  data-ajax="false", role="form")
     include module_form
     input.submit(type="submit", value="Save!", class="btn btn-primary")
+  div.row
+    div(class="col-md-1 col-md-offset-11")
+      a(href="/module/remove/" + module.id)
+        button(class="btn btn-danger") Remove  
