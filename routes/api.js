@@ -11,6 +11,7 @@ router.get('/search', function(req, res) {
   Thing.search(req.query.q, function(err, things){
     if(err){
       if(debug) console.log('Thing Search Error: ', err);
+      res.json({ error: err });
       return;      
     }
 
@@ -20,15 +21,18 @@ router.get('/search', function(req, res) {
     var results = {}
 
     // Reduce things db result to json data
-    results.things = things.map(function(result){
-      var thing = result.thing._data.data;
-      thing.id = result.thing._data.metadata.id
-      return thing;
-    });
+    if(things){
+      results.things = things.map(function(result){
+        var thing = result.thing._data.data;
+        thing.id = result.thing._data.metadata.id
+        return thing;
+      });
+    }
 
     Module.search(req.query.q, function(err, modules){
       if(err){
         if(debug) console.log('Module Search Error: ', err);
+        res.json({ error: err });
         return;      
       }
 
@@ -42,7 +46,7 @@ router.get('/search', function(req, res) {
           return module;
         });
       }
-      
+
       res.json(results);
     }, true);
 
